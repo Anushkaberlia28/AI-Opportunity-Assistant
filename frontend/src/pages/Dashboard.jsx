@@ -64,14 +64,43 @@
 
 // export default Dashboard;
 
+// import "../styles/Dashboard.css";
+// import Sidebar from "../components/Sidebar";
 import "../styles/Dashboard.css";
 import Sidebar from "../components/Sidebar";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Dashboard() {
 
     const user = JSON.parse(
         localStorage.getItem("user")
+
     );
+    const [opportunities, setOpportunities] = useState([]);
+    useEffect(() => {
+
+        const fetchOpportunities = async () => {
+
+            try {
+
+                const response = await axios.get(
+                    "http://localhost:5001/api/opportunities"
+                );
+
+                setOpportunities(response.data);
+
+            } catch (error) {
+
+                console.log(error);
+
+            }
+
+        };
+
+        fetchOpportunities();
+
+    }, []);
 
     return (
         <div className="layout">
@@ -88,7 +117,7 @@ function Dashboard() {
 
                     <div className="card">
                         <h3>Total Opportunities</h3>
-                        <p>24</p>
+                        <p>{opportunities.length}</p>
                     </div>
 
                     <div className="card">
