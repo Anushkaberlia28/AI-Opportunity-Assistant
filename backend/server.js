@@ -1,3 +1,4 @@
+const opportunityRoutes = require("./routes/opportunityRoutes");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/opportunities", opportunityRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend is running 🚀");
