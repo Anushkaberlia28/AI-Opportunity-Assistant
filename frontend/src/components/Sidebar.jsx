@@ -1,55 +1,75 @@
-// function Sidebar() {
-//     return (
-//         <div className="sidebar">
-
-//             <h2>AI Assistant</h2>
-
-//             <ul>
-//                 <li>🏠 Dashboard</li>
-//                 <li>💼 Opportunities</li>
-//                 <li>📄 Applications</li>
-//                 <li>📋 Resume</li>
-//                 <li>👤 Profile</li>
-//             </ul>
-
-//         </div>
-//     );
-// }
-
-// export default Sidebar;
-
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../styles/Sidebar.css";
 
 function Sidebar() {
-
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
-
         localStorage.removeItem("user");
-
         navigate("/");
     };
 
     return (
-        <div className="sidebar">
+        <aside className="sidebar">
+            <div className="sidebar-top">
+                <div className="sidebar-logo">
+                    <div className="logo-icon">AI</div>
 
-            <h2>AI Assistant</h2>
+                    <div className="logo-text">
+                        <h2>Opportunity</h2>
+                        <p>Assistant Plan</p>
+                    </div>
+                </div>
+            </div>
 
-            <ul>
-                <li>🏠 Dashboard</li>
-                <li>💼 Opportunities</li>
-                <li>📄 Applications</li>
-                <li>📋 Resume</li>
-                <li>👤 Profile</li>
+            <nav className="sidebar-nav">
+                <Link
+                    to="/dashboard"
+                    className={
+                        location.pathname === "/dashboard"
+                            ? "sidebar-link active"
+                            : "sidebar-link"
+                    }
+                >
+                    <span className="sidebar-emoji">🏠</span>
+                    <span>Dashboard</span>
+                </Link>
 
-                <li onClick={handleLogout}>
+                <Link
+                    to="/add-opportunity"
+                    className={
+                        location.pathname === "/add-opportunity"
+                            ? "sidebar-link active"
+                            : "sidebar-link"
+                    }
+                >
+                    <span className="sidebar-emoji">➕</span>
+                    <span>Add Opportunity</span>
+                </Link>
+
+                <div className="sidebar-link muted">
+                    <span className="sidebar-emoji">📄</span>
+                    <span>Applications</span>
+                </div>
+
+                <div className="sidebar-link muted">
+                    <span className="sidebar-emoji">📋</span>
+                    <span>Resume</span>
+                </div>
+
+                <div className="sidebar-link muted">
+                    <span className="sidebar-emoji">👤</span>
+                    <span>Profile</span>
+                </div>
+            </nav>
+
+            <div className="sidebar-bottom">
+                <button className="logout-btn" onClick={handleLogout}>
                     🚪 Logout
-                </li>
-
-            </ul>
-
-        </div>
+                </button>
+            </div>
+        </aside>
     );
 }
 
