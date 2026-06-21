@@ -141,20 +141,16 @@ function Dashboard() {
 
                     <h2>Recent Opportunities</h2>
 
-                    <div className="opportunity-card">
-                        <h3>Google Software Engineering Internship</h3>
-                        <p>Location: Bengaluru</p>
-                    </div>
-
-                    <div className="opportunity-card">
-                        <h3>Microsoft Explore Program</h3>
-                        <p>Location: Hyderabad</p>
-                    </div>
-
-                    <div className="opportunity-card">
-                        <h3>Amazon ML Internship</h3>
-                        <p>Location: Remote</p>
-                    </div>
+                    {
+                        opportunities.map((opportunity) => (
+                            <div className="opportunity-card" key={opportunity._id}>
+                                <h3>{opportunity.title}</h3>
+                                <p>Company: {opportunity.company}</p>
+                                <p>Location: {opportunity.location}</p>
+                                <p>Deadline: {opportunity.deadline}</p>
+                            </div>
+                        ))
+                    }
 
                 </div>
 
