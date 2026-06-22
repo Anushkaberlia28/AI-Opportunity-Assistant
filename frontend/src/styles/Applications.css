@@ -1,12 +1,12 @@
 .applications-page {
     flex: 1;
     min-height: 100vh;
-    padding: 38px;
+    padding: 40px;
     background: linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
 }
 
 .applications-wrapper {
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 0 auto;
 }
 
@@ -26,103 +26,111 @@
 }
 
 .applications-header h1 {
-    font-size: 34px;
-    font-weight: 850;
-    color: #111827;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #0f172a;
     letter-spacing: -0.5px;
 }
 
 .applications-header p {
     margin: 0;
-    font-size: 15px;
+    font-size: 1.1rem;
     color: #64748b;
-    line-height: 1.7;
-    max-width: 760px;
+    line-height: 1.8;
+    max-width: 900px;
 }
 
 .applications-card {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(226, 232, 240, 0.95);
     border-radius: 28px;
     padding: 32px;
-    box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.06),
-        0 8px 18px rgba(79, 70, 229, 0.04);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
 }
 
 .applications-topbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
     flex-wrap: wrap;
 }
 
 .applications-topbar h2 {
     margin: 0;
-    font-size: 1.7rem;
+    font-size: 2rem;
     font-weight: 800;
-    color: #111827;
+    color: #0f172a;
+}
+
+.applications-subtext {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 0.98rem;
 }
 
 .applications-count {
-    background: #eef2ff;
+    background: rgba(79, 70, 229, 0.1);
     color: #4f46e5;
-    padding: 8px 14px;
+    padding: 10px 16px;
     border-radius: 999px;
-    font-size: 14px;
+    font-size: 0.95rem;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .applications-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
 }
 
 .application-item {
-    background: rgba(255, 255, 255, 0.98);
+    background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 24px;
     padding: 24px;
-    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
-    transition: all 0.25s ease;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .application-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
 }
 
 .application-item-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 18px;
+    gap: 18px;
     flex-wrap: wrap;
+    margin-bottom: 22px;
 }
 
-.application-item-top h3 {
-    margin: 0;
-    font-size: 1.35rem;
+.application-main-info h3 {
+    margin: 0 0 8px;
+    font-size: 1.45rem;
     font-weight: 800;
     color: #0f172a;
 }
 
 .company-name {
-    margin: 8px 0 0;
+    margin: 0;
+    font-size: 1rem;
     color: #64748b;
-    font-size: 15px;
     font-weight: 600;
 }
 
 .application-status {
-    padding: 9px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 0.9rem;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -130,45 +138,100 @@
 .status-applied {
     background: rgba(59, 130, 246, 0.12);
     color: #2563eb;
+    border: 1px solid rgba(59, 130, 246, 0.18);
 }
 
 .status-interview {
     background: rgba(245, 158, 11, 0.12);
     color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .status-rejected {
     background: rgba(239, 68, 68, 0.12);
     color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .status-selected {
     background: rgba(34, 197, 94, 0.12);
-    color: #16a34a;
+    color: #15803d;
+    border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
-.application-details {
+.application-details-grid {
     display: grid;
-    gap: 12px;
-    margin-bottom: 18px;
+    grid-template-columns: 1fr 2fr;
+    gap: 18px;
+    margin-bottom: 24px;
 }
 
-.application-details p {
+.detail-box {
+    background: #f8fbff;
+    border: 1px solid #e6edf7;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.detail-box.full-width {
+    grid-column: auto;
+}
+
+.detail-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.detail-box p {
     margin: 0;
-    color: #334155;
-    line-height: 1.7;
-    font-size: 15px;
-}
-
-.application-details strong {
+    font-size: 1rem;
     color: #0f172a;
+    line-height: 1.6;
 }
 
-.application-actions {
+.application-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 18px;
+    flex-wrap: wrap;
     padding-top: 18px;
     border-top: 1px solid #edf2f7;
+}
+
+.status-update-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-update-box label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+.status-select {
+    min-width: 200px;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid #dbe3f0;
+    background: #ffffff;
+    padding: 0 14px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.status-select:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
 }
 
 .delete-btn {
@@ -191,21 +254,17 @@
     box-shadow: 0 16px 30px rgba(239, 68, 68, 0.14);
 }
 
-.delete-btn:active {
-    transform: translateY(0);
-}
-
 .empty-state {
     background: rgba(248, 250, 252, 0.9);
     border: 1px dashed #cbd5e1;
     border-radius: 24px;
-    padding: 36px 24px;
+    padding: 42px 24px;
     text-align: center;
 }
 
 .empty-state h3 {
     margin: 0 0 10px;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: #0f172a;
 }
 
@@ -220,8 +279,29 @@
         padding: 24px;
     }
 
+    .applications-header h1 {
+        font-size: 2.3rem;
+    }
+
     .applications-card {
         padding: 24px;
+    }
+
+    .application-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .application-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-select {
+        width: 100%;
+    }
+
+    .delete-btn {
+        width: 100%;
     }
 }
 
@@ -231,10 +311,14 @@
     }
 
     .applications-header h1 {
-        font-size: 28px;
+        font-size: 2rem;
     }
 
     .application-item {
-        padding: 20px;
+        padding: 18px;
+    }
+
+    .application-main-info h3 {
+        font-size: 1.2rem;
     }
 }

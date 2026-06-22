@@ -7,14 +7,14 @@ function Dashboard() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const [opportunities, setOpportunities] = useState([]);
-    const [applicationsCount, setApplicationsCount] = useState(0);
+    const [applications, setApplications] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCompany, setSelectedCompany] = useState("All Companies");
     const [selectedLocation, setSelectedLocation] = useState("All Locations");
 
     useEffect(() => {
         fetchOpportunities();
-        fetchApplicationsCount();
+        fetchApplications();
     }, []);
 
     const fetchOpportunities = async () => {
@@ -28,12 +28,12 @@ function Dashboard() {
         }
     };
 
-    const fetchApplicationsCount = async () => {
+    const fetchApplications = async () => {
         try {
             const response = await axios.get(
                 "http://localhost:5001/api/applications"
             );
-            setApplicationsCount(response.data.length);
+            setApplications(response.data);
         } catch (error) {
             console.log("Error fetching applications:", error);
         }
@@ -66,16 +66,34 @@ function Dashboard() {
 
     const handleApplyOpportunity = async (opportunity) => {
         try {
-            await axios.post("http://localhost:5001/api/applications", {
-                opportunityTitle: opportunity.title,
-                company: opportunity.company,
-                status: "Applied",
-                appliedDate: new Date().toISOString().split("T")[0],
-                notes: ""
-            });
+            const alreadyApplied = applications.some(
+                (application) =>
+                    application.opportunityTitle === opportunity.title &&
+                    application.company === opportunity.company
+            );
+
+            if (alreadyApplied) {
+                alert("You have already applied to this opportunity");
+                return;
+            }
+
+            const response = await axios.post(
+                "http://localhost:5001/api/applications",
+                {
+                    opportunityTitle: opportunity.title,
+                    company: opportunity.company,
+                    status: "Applied",
+                    appliedDate: new Date().toISOString().split("T")[0],
+                    notes: ""
+                }
+            );
+
+            setApplications((prevApplications) => [
+                response.data,
+                ...prevApplications
+            ]);
 
             alert("Application added successfully");
-            fetchApplicationsCount();
         } catch (error) {
             console.log("Error applying to opportunity:", error);
             alert("Failed to add application");
@@ -109,6 +127,15 @@ function Dashboard() {
         return matchesSearch && matchesCompany && matchesLocation;
     });
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcomingDeadlinesCount = opportunities.filter((opportunity) => {
+        const deadlineDate = new Date(opportunity.deadline);
+        deadlineDate.setHours(0, 0, 0, 0);
+        return deadlineDate >= today;
+    }).length;
+
     return (
         <div className="layout">
             <Sidebar />
@@ -138,7 +165,7 @@ function Dashboard() {
                         <div className="card-icon blue">📄</div>
                         <div>
                             <h3>Applications Submitted</h3>
-                            <p>{applicationsCount}</p>
+                            <p>{applications.length}</p>
                         </div>
                     </div>
 
@@ -146,7 +173,7 @@ function Dashboard() {
                         <div className="card-icon red">⏰</div>
                         <div>
                             <h3>Upcoming Deadlines</h3>
-                            <p>5</p>
+                            <p>{upcomingDeadlinesCount}</p>
                         </div>
                     </div>
 
@@ -200,64 +227,76 @@ function Dashboard() {
                     </p>
 
                     {filteredOpportunities.length > 0 ? (
-                        filteredOpportunities.map((opportunity) => (
-                            <div className="opportunity-card" key={opportunity._id}>
-                                <div className="opportunity-top">
-                                    <div className="opportunity-heading">
-                                        <h3 className="opportunity-title">
-                                            {opportunity.title}
-                                        </h3>
-                                        <span className="status-badge active">
-                                            Active
-                                        </span>
+                        filteredOpportunities.map((opportunity) => {
+                            const alreadyApplied = applications.some(
+                                (application) =>
+                                    application.opportunityTitle === opportunity.title &&
+                                    application.company === opportunity.company
+                            );
+
+                            return (
+                                <div
+                                    className="opportunity-card"
+                                    key={opportunity._id}
+                                >
+                                    <div className="opportunity-top">
+                                        <div className="opportunity-heading">
+                                            <h3 className="opportunity-title">
+                                                {opportunity.title}
+                                            </h3>
+                                            <span className="status-badge active">
+                                                Active
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="opportunity-details">
+                                        <p>
+                                            <strong>Company:</strong> {opportunity.company}
+                                        </p>
+
+                                        <p>
+                                            <strong>Location:</strong> {opportunity.location}
+                                        </p>
+
+                                        <p>
+                                            <strong>Deadline:</strong>{" "}
+                                            {new Date(opportunity.deadline).toLocaleDateString(
+                                                "en-GB"
+                                            )}
+                                        </p>
+
+                                        <p>
+                                            <strong>Skills:</strong>{" "}
+                                            {Array.isArray(opportunity.skills)
+                                                ? opportunity.skills.join(", ")
+                                                : opportunity.skills}
+                                        </p>
+                                    </div>
+
+                                    <div className="opportunity-actions">
+                                        <button
+                                            className={`apply-btn ${alreadyApplied ? "applied-btn" : ""
+                                                }`}
+                                            onClick={() =>
+                                                handleApplyOpportunity(opportunity)
+                                            }
+                                        >
+                                            {alreadyApplied ? "Applied" : "Apply"}
+                                        </button>
+
+                                        <button
+                                            className="delete-btn"
+                                            onClick={() =>
+                                                handleDeleteOpportunity(opportunity._id)
+                                            }
+                                        >
+                                            🗑 Delete
+                                        </button>
                                     </div>
                                 </div>
-
-                                <div className="opportunity-details">
-                                    <p>
-                                        <strong>Company:</strong> {opportunity.company}
-                                    </p>
-
-                                    <p>
-                                        <strong>Location:</strong> {opportunity.location}
-                                    </p>
-
-                                    <p>
-                                        <strong>Deadline:</strong>{" "}
-                                        {new Date(opportunity.deadline).toLocaleDateString(
-                                            "en-GB"
-                                        )}
-                                    </p>
-
-                                    <p>
-                                        <strong>Skills:</strong>{" "}
-                                        {Array.isArray(opportunity.skills)
-                                            ? opportunity.skills.join(", ")
-                                            : opportunity.skills}
-                                    </p>
-                                </div>
-
-                                <div className="opportunity-actions">
-                                    <button
-                                        className="apply-btn"
-                                        onClick={() =>
-                                            handleApplyOpportunity(opportunity)
-                                        }
-                                    >
-                                        Apply
-                                    </button>
-
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() =>
-                                            handleDeleteOpportunity(opportunity._id)
-                                        }
-                                    >
-                                        🗑 Delete
-                                    </button>
-                                </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
                         <div className="empty-state">
                             <h3>No opportunities found</h3>

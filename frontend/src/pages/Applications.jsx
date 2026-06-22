@@ -27,9 +27,7 @@ function Applications() {
                 "Are you sure you want to delete this application?"
             );
 
-            if (!confirmDelete) {
-                return;
-            }
+            if (!confirmDelete) return;
 
             await axios.delete(`http://localhost:5001/api/applications/${id}`);
 
@@ -43,6 +41,26 @@ function Applications() {
         } catch (error) {
             console.log("Error deleting application:", error);
             alert("Failed to delete application");
+        }
+    };
+
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:5001/api/applications/${id}`,
+                {
+                    status: newStatus
+                }
+            );
+
+            setApplications((prevApplications) =>
+                prevApplications.map((application) =>
+                    application._id === id ? response.data : application
+                )
+            );
+        } catch (error) {
+            console.log("Error updating application status:", error);
+            alert("Failed to update status");
         }
     };
 
@@ -73,7 +91,13 @@ function Applications() {
 
                     <div className="applications-card">
                         <div className="applications-topbar">
-                            <h2>All Applications</h2>
+                            <div>
+                                <h2>All Applications</h2>
+                                <p className="applications-subtext">
+                                    View, update and manage all job applications in one place.
+                                </p>
+                            </div>
+
                             <span className="applications-count">
                                 {applications.length} total
                             </span>
@@ -87,7 +111,7 @@ function Applications() {
                                         key={application._id}
                                     >
                                         <div className="application-item-top">
-                                            <div>
+                                            <div className="application-main-info">
                                                 <h3>{application.opportunityTitle}</h3>
                                                 <p className="company-name">
                                                     {application.company}
@@ -103,23 +127,58 @@ function Applications() {
                                             </span>
                                         </div>
 
-                                        <div className="application-details">
-                                            <p>
-                                                <strong>Applied Date:</strong>{" "}
-                                                {new Date(
-                                                    application.appliedDate
-                                                ).toLocaleDateString("en-GB")}
-                                            </p>
+                                        <div className="application-details-grid">
+                                            <div className="detail-box">
+                                                <span className="detail-label">
+                                                    Applied Date
+                                                </span>
+                                                <p>
+                                                    {new Date(
+                                                        application.appliedDate
+                                                    ).toLocaleDateString("en-GB")}
+                                                </p>
+                                            </div>
 
-                                            <p>
-                                                <strong>Notes:</strong>{" "}
-                                                {application.notes
-                                                    ? application.notes
-                                                    : "No notes added"}
-                                            </p>
+                                            <div className="detail-box full-width">
+                                                <span className="detail-label">
+                                                    Notes
+                                                </span>
+                                                <p>
+                                                    {application.notes?.trim()
+                                                        ? application.notes
+                                                        : "No notes added"}
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        <div className="application-actions">
+                                        <div className="application-footer">
+                                            <div className="status-update-box">
+                                                <label>Update Status</label>
+                                                <select
+                                                    value={application.status}
+                                                    onChange={(e) =>
+                                                        handleStatusChange(
+                                                            application._id,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="status-select"
+                                                >
+                                                    <option value="Applied">
+                                                        Applied
+                                                    </option>
+                                                    <option value="Interview">
+                                                        Interview
+                                                    </option>
+                                                    <option value="Rejected">
+                                                        Rejected
+                                                    </option>
+                                                    <option value="Selected">
+                                                        Selected
+                                                    </option>
+                                                </select>
+                                            </div>
+
                                             <button
                                                 className="delete-btn"
                                                 onClick={() =>
@@ -138,8 +197,7 @@ function Applications() {
                             <div className="empty-state">
                                 <h3>No applications added yet</h3>
                                 <p>
-                                    Once you start adding applications, they will
-                                    appear here.
+                                    Once you start applying to opportunities, they will appear here.
                                 </p>
                             </div>
                         )}
