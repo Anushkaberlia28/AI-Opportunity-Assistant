@@ -22,54 +22,54 @@ function Sidebar() {
                     </div>
                 </div>
 
-                <div className="sidebar-tagline">
-                    Smarter opportunity tracking for internships, jobs, and career growth.
-                </div>
+                <nav className="sidebar-nav">
+                    <Link
+                        to="/dashboard"
+                        className={
+                            location.pathname === "/dashboard"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                    >
+                        <span className="sidebar-emoji">🏠</span>
+                        Dashboard
+                    </Link>
+
+                    <Link
+                        to="/add-opportunity"
+                        className={
+                            location.pathname === "/add-opportunity"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                    >
+                        <span className="sidebar-emoji">➕</span>
+                        Add Opportunity
+                    </Link>
+
+                    <Link
+                        to="/applications"
+                        className={
+                            location.pathname === "/applications"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                    >
+                        <span className="sidebar-emoji">📄</span>
+                        Applications
+                    </Link>
+
+                    <div className="sidebar-link muted">
+                        <span className="sidebar-emoji">📋</span>
+                        Resume
+                    </div>
+
+                    <div className="sidebar-link muted">
+                        <span className="sidebar-emoji">👤</span>
+                        Profile
+                    </div>
+                </nav>
             </div>
-
-            <nav className="sidebar-nav">
-                <Link
-                    to="/dashboard"
-                    className={
-                        location.pathname === "/dashboard"
-                            ? "sidebar-link active"
-                            : "sidebar-link"
-                    }
-                >
-                    <span className="sidebar-emoji">🏠</span>
-                    <span>Dashboard</span>
-                </Link>
-
-                <Link
-                    to="/add-opportunity"
-                    className={
-                        location.pathname === "/add-opportunity"
-                            ? "sidebar-link active"
-                            : "sidebar-link"
-                    }
-                >
-                    <span className="sidebar-emoji">➕</span>
-                    <span>Add Opportunity</span>
-                </Link>
-
-                <div className="sidebar-link muted">
-                    <span className="sidebar-emoji">📄</span>
-                    <span>Applications</span>
-                    <small>Soon</small>
-                </div>
-
-                <div className="sidebar-link muted">
-                    <span className="sidebar-emoji">📋</span>
-                    <span>Resume</span>
-                    <small>Soon</small>
-                </div>
-
-                <div className="sidebar-link muted">
-                    <span className="sidebar-emoji">👤</span>
-                    <span>Profile</span>
-                    <small>Soon</small>
-                </div>
-            </nav>
 
             <div className="sidebar-bottom">
                 <button className="logout-btn" onClick={handleLogout}>
