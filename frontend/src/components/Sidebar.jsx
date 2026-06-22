@@ -21,6 +21,10 @@ function Sidebar() {
                         <p>Assistant Plan</p>
                     </div>
                 </div>
+
+                <div className="sidebar-tagline">
+                    Smarter opportunity tracking for internships, jobs, and career growth.
+                </div>
             </div>
 
             <nav className="sidebar-nav">
@@ -51,16 +55,19 @@ function Sidebar() {
                 <div className="sidebar-link muted">
                     <span className="sidebar-emoji">📄</span>
                     <span>Applications</span>
+                    <small>Soon</small>
                 </div>
 
                 <div className="sidebar-link muted">
                     <span className="sidebar-emoji">📋</span>
                     <span>Resume</span>
+                    <small>Soon</small>
                 </div>
 
                 <div className="sidebar-link muted">
                     <span className="sidebar-emoji">👤</span>
                     <span>Profile</span>
+                    <small>Soon</small>
                 </div>
             </nav>
 
