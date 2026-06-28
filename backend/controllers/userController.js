@@ -47,8 +47,40 @@ const loginUser = async (req, res) => {
         });
     }
 };
+const updateSkills = async (req, res) => {
+    try {
+
+        const { skills } = req.body;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                skills: skills
+            },
+            {
+                new: true
+            }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+};
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    updateSkills
 };

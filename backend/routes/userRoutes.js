@@ -4,11 +4,14 @@ const router = express.Router();
 
 const {
     registerUser,
-    loginUser
+    loginUser,
+    updateSkills
 } = require("../controllers/userController");
 
 router.post("/register", registerUser);
 
 router.post("/login", loginUser);
+
+router.patch("/:id/skills", updateSkills);
 
 module.exports = router;

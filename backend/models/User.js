@@ -28,7 +28,13 @@ const userSchema = new mongoose.Schema(
 
         resume: {
             type: String
-        }
+        },
+
+        skills: [
+            {
+                type: String
+            }
+        ]
     },
     {
         timestamps: true
