@@ -221,10 +221,20 @@ function Dashboard() {
                 </div>
 
                 <div className="section">
-                    <h2>Recent Opportunities</h2>
-                    <p className="section-subtitle">
-                        Browse and manage the latest opportunities added to your platform.
-                    </p>
+
+                    <div className="section-top">
+                        <div>
+                            <h2>Recent Opportunities</h2>
+
+                            <p className="section-subtitle">
+                                Browse and manage the latest opportunities added to your platform.
+                            </p>
+                        </div>
+
+                        <span className="opportunity-count">
+                            {filteredOpportunities.length} Opportunities
+                        </span>
+                    </div>
 
                     {filteredOpportunities.length > 0 ? (
                         filteredOpportunities.map((opportunity) => {
