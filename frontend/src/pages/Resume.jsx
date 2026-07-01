@@ -80,7 +80,7 @@ function Resume() {
     };
 
     return (
-        <div className="layout">
+        <div className="resume-layout">
             <Sidebar />
 
             <div className="resume-page">
