@@ -48,6 +48,9 @@ import Dashboard from "./pages/Dashboard";
 import AddOpportunity from "./pages/AddOpportunity";
 import Applications from "./pages/Applications";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
+import Resume from "./pages/Resume";
+import Assistant from "./pages/Assistant";
 
 function App() {
   return (
@@ -84,6 +87,23 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/resume"
+          element={
+            <ProtectedRoute>
+              <Resume />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/assistant"
+          element={
+            <ProtectedRoute>
+              <Assistant />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,7 @@
 import "../styles/Dashboard.css";
 import Sidebar from "../components/Sidebar";
+import PageNavigator from "../components/PageNavigator";
+import AssistantPanel from "../components/AssistantPanel";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -141,6 +143,7 @@ function Dashboard() {
             <Sidebar />
 
             <div className="dashboard">
+                <PageNavigator />
                 <div className="dashboard-badge">Dashboard Overview</div>
 
                 <h1 className="dashboard-title">
@@ -219,6 +222,10 @@ function Dashboard() {
                         ))}
                     </select>
                 </div>
+
+                <section className="assistant-section">
+                    <AssistantPanel />
+                </section>
 
                 <div className="section">
 

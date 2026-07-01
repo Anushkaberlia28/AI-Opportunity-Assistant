@@ -18,23 +18,31 @@ const userSchema = new mongoose.Schema(
             required: true
         },
 
+        age: {
+            type: Number,
+            default: 0
+        },
+
         college: {
-            type: String
+            type: String,
+            default: ""
         },
 
         branch: {
-            type: String
-        },
-
-        resume: {
-            type: String
+            type: String,
+            default: ""
         },
 
         skills: [
             {
                 type: String
             }
-        ]
+        ],
+
+        resume: {
+            type: String,
+            default: ""
+        }
     },
     {
         timestamps: true

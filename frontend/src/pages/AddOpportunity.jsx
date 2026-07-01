@@ -242,9 +242,10 @@
 
 // export default AddOpportunity;
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
+import PageNavigator from "../components/PageNavigator";
 import "../styles/AddOpportunity.css";
 
 function AddOpportunity() {
@@ -253,6 +254,82 @@ function AddOpportunity() {
     const [location, setLocation] = useState("");
     const [deadline, setDeadline] = useState("");
     const [skills, setSkills] = useState("");
+    const [liveOpportunities, setLiveOpportunities] = useState([]);
+    const [liveMessage, setLiveMessage] = useState("Loading live internship and job data...");
+    const [loadingLiveData, setLoadingLiveData] = useState(false);
+
+    const fallbackLiveData = [
+        {
+            title: "Software Engineering Intern",
+            company: "OpenAI",
+            location: "Remote",
+            deadline: "2026-07-20",
+            skills: ["React", "Node.js", "APIs"]
+        },
+        {
+            title: "Data Analyst Intern",
+            company: "Google",
+            location: "Bengaluru",
+            deadline: "2026-07-18",
+            skills: ["SQL", "Python", "Tableau"]
+        },
+        {
+            title: "Product Design Intern",
+            company: "Adobe",
+            location: "Hyderabad",
+            deadline: "2026-07-25",
+            skills: ["Figma", "User Research", "UI Design"]
+        }
+    ];
+
+    const fetchLiveOpportunities = async () => {
+        setLoadingLiveData(true);
+        setLiveMessage("Fetching fresh internship and job opportunities...");
+
+        try {
+            const response = await axios.get(
+                "https://www.themuse.com/api/public/jobs?category=Software%20Engineering&page=1"
+            );
+
+            const jobs = response.data?.results || response.data || [];
+            const normalized = jobs.slice(0, 4).map((job, index) => ({
+                title: job.title || job.name || `Opening ${index + 1}`,
+                company: job.company?.name || job.company || job.employer_name || "Featured Company",
+                location: job.location || job.candidate_required_location || "Remote",
+                deadline: job.publication_date || job.posted_at || new Date(Date.now() + 86400000 * (index + 3)).toISOString().split("T")[0],
+                skills: Array.isArray(job.categories)
+                    ? job.categories
+                    : [job.categories || "Software Development"]
+            }));
+
+            if (normalized.length > 0) {
+                setLiveOpportunities(normalized);
+                setLiveMessage("Live opportunities loaded successfully.");
+            } else {
+                setLiveOpportunities(fallbackLiveData);
+                setLiveMessage("No live results were returned, so a sample list is shown instead.");
+            }
+        } catch (error) {
+            console.log("Error fetching live opportunities:", error);
+            setLiveOpportunities(fallbackLiveData);
+            setLiveMessage("Live data is temporarily unavailable. Showing a curated sample list instead.");
+        } finally {
+            setLoadingLiveData(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchLiveOpportunities();
+    }, []);
+
+    const useLiveOpportunity = (opportunity) => {
+        setTitle(opportunity.title);
+        setCompany(opportunity.company);
+        setLocation(opportunity.location);
+        setDeadline(opportunity.deadline);
+        setSkills((opportunity.skills || []).join(", "));
+        setLiveMessage(`Loaded ${opportunity.title} into the form.`);
+    };
 
     const handleAddOpportunity = async () => {
         try {
@@ -291,6 +368,7 @@ function AddOpportunity() {
 
             <div className="add-opportunity-page">
                 <div className="add-opportunity-wrapper">
+                    <PageNavigator />
                     <div className="add-opportunity-header">
                         <span className="page-badge">
                             Opportunity Management
@@ -306,6 +384,30 @@ function AddOpportunity() {
                     </div>
 
                     <div className="add-opportunity-card">
+                        <div className="live-opportunity-panel">
+                            <div className="live-opportunity-header">
+                                <h3>Live internship & job suggestions</h3>
+                                <span>{loadingLiveData ? "Loading..." : "Ready"}</span>
+                            </div>
+                            <p>{liveMessage}</p>
+
+                            <div className="live-opportunity-list">
+                                {liveOpportunities.map((opportunity, index) => (
+                                    <button
+                                        key={`${opportunity.title}-${index}`}
+                                        className="live-opportunity-item"
+                                        onClick={() => useLiveOpportunity(opportunity)}
+                                    >
+                                        <strong>{opportunity.title}</strong>
+                                        <span>{opportunity.company}</span>
+                                        <small>
+                                            {opportunity.location} • {opportunity.deadline}
+                                        </small>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         <div className="form-grid">
                             <div className="form-group full-width">
                                 <label>Opportunity Title</label>

@@ -1,115 +1,3 @@
-// import "../styles/Login.css";
-// import { useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-
-// function Login() {
-//     const navigate = useNavigate();
-
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-
-//     const handleLogin = async () => {
-
-//         try {
-
-//             const response = await axios.post("http://localhost:5001/api/users/login",
-//                 {
-//                     email,
-//                     password
-//                 }
-//             );
-
-//             const user = response.data?.user ?? response.data;
-//             console.log("LOGIN RESPONSE", response.data, user);
-
-//             if (!user) {
-//                 throw new Error("Login response does not contain user data.");
-//             }
-
-//             const userPlain = JSON.parse(JSON.stringify(user));
-//             const userString = JSON.stringify(userPlain);
-//             localStorage.setItem("user", userString);
-//             console.log("LOGIN: saved user to localStorage", userString, localStorage.getItem("user"));
-
-//             navigate("/dashboard");
-
-//             //alert(response.data.message);
-//             //navigate("/dashboard");
-
-//         } catch (error) {
-
-//             console.log("ERROR:", error);
-
-//             console.log("RESPONSE:", error.response);
-
-//             alert(error.message);
-
-//         }
-//     };
-
-//     return (
-//         <div className="container">
-
-//             <div className="left-section">
-
-//                 <span className="badge">
-//                     AI-Powered Career Platform
-//                 </span>
-
-//                 <h1>
-//                     Discover Your Next Opportunity
-//                 </h1>
-
-//                 <p>
-//                     Track internships, jobs, hackathons,
-//                     scholarships and placement opportunities
-//                     with AI-powered recommendations.
-//                 </p>
-
-//                 <ul>
-//                     <li>✓ AI Opportunity Tracking</li>
-//                     <li>✓ Smart Resume Autofill</li>
-//                     <li>✓ Deadline Notifications</li>
-//                     <li>✓ Career Insights & Guidance</li>
-//                 </ul>
-
-//             </div>
-
-//             <div className="login-box">
-
-//                 <h2>Sign In</h2>
-
-//                 <p className="subtitle">
-//                     Welcome back! Please enter your details.
-//                 </p>
-
-//                 <input
-//                     type="email"
-//                     placeholder="Email Address"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                 />
-
-//                 <input
-//                     type="password"
-//                     placeholder="Password"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                 />
-
-//                 <button onClick={handleLogin}>
-//                     Continue
-//                 </button>
-
-//             </div>
-
-//         </div>
-//     );
-// }
-
-// export default Login;
-
 import "../styles/Login.css";
 import { useState } from "react";
 import axios from "axios";
@@ -120,6 +8,9 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [age, setAge] = useState("");
+    const [isRegistering, setIsRegistering] = useState(false);
 
     const handleLogin = async () => {
         try {
@@ -133,9 +24,35 @@ function Login() {
 
             localStorage.setItem(
                 "user",
-                JSON.stringify(response.data)
+                JSON.stringify(response.data.user)
             );
 
+            navigate("/dashboard");
+        } catch (error) {
+            console.log("ERROR:", error);
+            console.log("RESPONSE:", error.response);
+            alert(error.response?.data?.message || error.message);
+        }
+    };
+
+    const handleRegister = async () => {
+        try {
+            if (!name || !email || !password || !age) {
+                alert("Please fill in your name, email, password, and age.");
+                return;
+            }
+
+            const response = await axios.post(
+                "http://localhost:5001/api/users/register",
+                {
+                    name,
+                    email,
+                    password,
+                    age: Number(age)
+                }
+            );
+
+            localStorage.setItem("user", JSON.stringify(response.data));
             navigate("/dashboard");
         } catch (error) {
             console.log("ERROR:", error);
@@ -201,8 +118,12 @@ function Login() {
                 <div className="login-right">
                     <div className="login-card">
                         <div className="login-card-top">
-                            <span className="mini-badge">Welcome Back</span>
-                            <h2>Sign in to continue</h2>
+                            <span className="mini-badge">
+                                {isRegistering ? "Create Account" : "Welcome Back"}
+                            </span>
+                            <h2>
+                                {isRegistering ? "Register to get started" : "Sign in to continue"}
+                            </h2>
                             <p>
                                 Access your dashboard, opportunities, and AI
                                 career workflow.
@@ -210,6 +131,18 @@ function Login() {
                         </div>
 
                         <div className="login-form">
+                            {isRegistering && (
+                                <div className="input-group">
+                                    <label>Full Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter your full name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+                            )}
+
                             <div className="input-group">
                                 <label>Email Address</label>
                                 <input
@@ -234,8 +167,33 @@ function Login() {
                                 />
                             </div>
 
-                            <button className="login-btn" onClick={handleLogin}>
-                                Continue to Dashboard
+                            {isRegistering && (
+                                <div className="input-group">
+                                    <label>Age</label>
+                                    <input
+                                        type="number"
+                                        min="16"
+                                        max="100"
+                                        placeholder="Enter your age"
+                                        value={age}
+                                        onChange={(e) => setAge(e.target.value)}
+                                    />
+                                </div>
+                            )}
+
+                            <button
+                                className="login-btn"
+                                onClick={isRegistering ? handleRegister : handleLogin}
+                            >
+                                {isRegistering ? "Create Account" : "Continue to Dashboard"}
+                            </button>
+
+                            <button
+                                className="login-btn"
+                                style={{ marginTop: "10px", background: "#f3f4f6", color: "#111827" }}
+                                onClick={() => setIsRegistering(!isRegistering)}
+                            >
+                                {isRegistering ? "Already have an account? Sign in" : "Need an account? Register"}
                             </button>
                         </div>
                     </div>

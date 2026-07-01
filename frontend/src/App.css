@@ -1,169 +1,195 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
+body {
   font-family: -apple-system,
-               BlinkMacSystemFont,
-               "Segoe UI",
-               sans-serif;
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-  background:#ffffff;
+  background: #ffffff;
+  color: #111827;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.container{
-  min-height:100vh;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  gap:120px;
-
-  padding:60px;
+body[data-theme='dark'] {
+  background: #020617;
+  color: #f8fafc;
 }
 
-.left-section{
-  max-width:600px;
+body[data-theme='dark'] .container,
+body[data-theme='dark'] .login-box,
+body[data-theme='dark'] .left-section p,
+body[data-theme='dark'] .left-section li,
+body[data-theme='dark'] .subtitle,
+body[data-theme='dark'] .divider {
+  color: #e2e8f0;
 }
 
-.left-section h1{
-  font-size:72px;
-  font-weight:700;
-
-  color:#111827;
-
-  line-height:1.1;
-
-  margin-bottom:20px;
+body[data-theme='dark'] .login-box {
+  background: #0f172a;
+  border-color: #334155;
 }
 
-.left-section p{
-  font-size:20px;
-
-  color:#6b7280;
-
-  margin-bottom:35px;
-
-  line-height:1.6;
+body[data-theme='dark'] .left-section h1,
+body[data-theme='dark'] .login-box h2 {
+  color: #f8fafc;
 }
 
-.left-section ul{
-  list-style:none;
+.container {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 120px;
+
+  padding: 60px;
 }
 
-.left-section li{
-  font-size:18px;
-
-  color:#374151;
-
-  margin:18px 0;
+.left-section {
+  max-width: 600px;
 }
 
-.login-box{
-  width:430px;
+.left-section h1 {
+  font-size: 72px;
+  font-weight: 700;
 
-  background:white;
+  color: #111827;
 
-  padding:40px;
+  line-height: 1.1;
 
-  border-radius:24px;
+  margin-bottom: 20px;
+}
 
-  border:1px solid #e5e7eb;
+.left-section p {
+  font-size: 20px;
+
+  color: #6b7280;
+
+  margin-bottom: 35px;
+
+  line-height: 1.6;
+}
+
+.left-section ul {
+  list-style: none;
+}
+
+.left-section li {
+  font-size: 18px;
+
+  color: #374151;
+
+  margin: 18px 0;
+}
+
+.login-box {
+  width: 430px;
+
+  background: white;
+
+  padding: 40px;
+
+  border-radius: 24px;
+
+  border: 1px solid #e5e7eb;
 
   box-shadow:
-  0px 10px 30px
-  rgba(0,0,0,0.06);
+    0px 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-.login-box h2{
-  text-align:center;
+.login-box h2 {
+  text-align: center;
 
-  color:#111827;
+  color: #111827;
 
-  margin-bottom:25px;
+  margin-bottom: 25px;
 }
 
-.login-box input{
-  width:100%;
+.login-box input {
+  width: 100%;
 
-  padding:14px;
+  padding: 14px;
 
-  margin-bottom:15px;
+  margin-bottom: 15px;
 
-  border:1px solid #d1d5db;
+  border: 1px solid #d1d5db;
 
-  border-radius:12px;
+  border-radius: 12px;
 
-  font-size:15px;
+  font-size: 15px;
 }
 
-.login-box input:focus{
-  outline:none;
+.login-box input:focus {
+  outline: none;
 
-  border-color:#2563eb;
+  border-color: #2563eb;
 }
 
-.login-box button{
-  width:100%;
+.login-box button {
+  width: 100%;
 
-  padding:14px;
+  padding: 14px;
 
-  border:none;
+  border: none;
 
-  border-radius:12px;
+  border-radius: 12px;
 
-  background:#2563eb;
+  background: #2563eb;
 
-  color:white;
+  color: white;
 
-  font-size:16px;
+  font-size: 16px;
 
-  font-weight:600;
+  font-weight: 600;
 
-  cursor:pointer;
+  cursor: pointer;
 }
 
-.login-box button:hover{
-  background:#1d4ed8;
-}
-.badge{
-  display:inline-block;
-  padding:8px 14px;
-
-  background:#eff6ff;
-
-  color:#2563eb;
-
-  border-radius:999px;
-
-  font-size:14px;
-  font-weight:600;
-
-  margin-bottom:25px;
+.login-box button:hover {
+  background: #1d4ed8;
 }
 
-.subtitle{
-  text-align:center;
-  color:#6b7280;
-  margin-bottom:25px;
+.badge {
+  display: inline-block;
+  padding: 8px 14px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 25px;
 }
 
-.divider{
-  margin:20px 0;
-  text-align:center;
-  color:#9ca3af;
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 25px;
 }
 
-.google-btn{
-  background:white !important;
-  color:#111827 !important;
-
-  border:1px solid #d1d5db !important;
+.divider {
+  margin: 20px 0;
+  text-align: center;
+  color: #9ca3af;
 }
 
-.google-btn:hover{
-  background:#f9fafb !important;
+.google-btn {
+  background: white !important;
+  color: #111827 !important;
+
+  border: 1px solid #d1d5db !important;
+}
+
+.google-btn:hover {
+  background: #f9fafb !important;
 }

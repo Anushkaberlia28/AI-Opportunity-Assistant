@@ -2,6 +2,7 @@
     width: 270px;
     flex-shrink: 0;
     min-height: 100vh;
+    z-index: 20;
     background:
         radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 28%),
         linear-gradient(180deg, #111827 0%, #0f172a 100%);
@@ -29,18 +30,35 @@
 }
 
 .logo-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: white;
     box-shadow: 0 16px 32px rgba(99, 102, 241, 0.35);
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.logo-icon::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 14px;
+}
+
+.logo-icon-core {
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.04em;
 }
 
 .logo-text h2 {

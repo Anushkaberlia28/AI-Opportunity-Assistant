@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
+import PageNavigator from "../components/PageNavigator";
 import "../styles/Applications.css";
 
 function Applications() {
@@ -78,6 +79,7 @@ function Applications() {
 
             <div className="applications-page">
                 <div className="applications-wrapper">
+                    <PageNavigator />
                     <div className="applications-header">
                         <span className="page-badge">Applications Tracker</span>
 

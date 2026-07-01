@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/Sidebar.css";
 
 function Sidebar() {
@@ -13,8 +14,11 @@ function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="sidebar-top">
+                <ThemeToggle />
                 <div className="sidebar-logo">
-                    <div className="logo-icon">AI</div>
+                    <div className="logo-icon" aria-label="AI assistant logo">
+                        <span className="logo-icon-core">AI</span>
+                    </div>
 
                     <div className="logo-text">
                         <h2>Opportunity</h2>
@@ -59,15 +63,39 @@ function Sidebar() {
                         Applications
                     </Link>
 
-                    <div className="sidebar-link muted">
+                    <Link
+                        to="/resume"
+                        className={
+                            location.pathname === "/resume"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                    >
                         <span className="sidebar-emoji">📋</span>
                         Resume
-                    </div>
+                    </Link>
 
-                    <div className="sidebar-link muted">
-                        <span className="sidebar-emoji">👤</span>
+                    <Link
+                        to="/assistant"
+                        className={
+                            location.pathname === "/assistant"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                    >
+                        <span className="sidebar-emoji">🤖</span>
+                        Assistant
+                    </Link>
+
+                    <Link to="/profile" className="sidebar-link">
+
+                        <span className="sidebar-emoji">
+                            👤
+                        </span>
+
                         Profile
-                    </div>
+
+                    </Link>
                 </nav>
             </div>
 
